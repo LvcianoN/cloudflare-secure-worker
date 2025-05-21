@@ -3,7 +3,7 @@ export default {
     const url = new URL(request.url);
     const pathname = url.pathname;
 
-    // Route: /secure or /secure/
+    // Handle /secure and /secure/
     if (pathname === "/secure" || pathname === "/secure/") {
       const email = request.headers.get("cf-access-authenticated-user-email") || "unknown@example.com";
       const country = request.cf?.country || "XX";
@@ -22,7 +22,7 @@ export default {
       });
     }
 
-    // ✅ Route: /secure/{COUNTRY}, protected by Access
+    // Handle /secure/{COUNTRY} only if logged in
     const match = pathname.match(/^\/secure\/([A-Z]{2})$/i);
     if (match) {
       const email = request.headers.get("cf-access-authenticated-user-email");
@@ -31,7 +31,6 @@ export default {
       }
 
       const countryCode = match[1].toUpperCase();
-
       try {
         const object = await env.COUNTRY_FLAGS.get(`${countryCode}.svg`);
         if (!object || !object.body) {
@@ -44,7 +43,7 @@ export default {
             "Cache-Control": "public, max-age=86400"
           }
         });
-      } catch (err) {
+      } catch {
         return new Response("Error fetching flag", { status: 500 });
       }
     }
