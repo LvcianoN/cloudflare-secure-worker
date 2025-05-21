@@ -4,7 +4,7 @@ export default {
     const pathname = url.pathname;
 
     // Route: /secure
-    if (pathname === "/secure") {
+    if (pathname === "/secure" || pathname === "/secure/") {
   const email = request.headers.get("cf-access-authenticated-user-email") || "unknown@example.com";
   const country = request.cf?.country || "XX";
   const timestamp = new Date().toISOString();
