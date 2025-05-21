@@ -22,7 +22,7 @@ export default {
       });
     }
 
-    // ✅ Route: /secure/{COUNTRY}, protected by Access
+    // Route: /secure/{COUNTRY}, protected by Access
     const match = pathname.match(/^\/secure\/([A-Z]{2})$/i);
     if (match) {
       const email = request.headers.get("cf-access-authenticated-user-email");
