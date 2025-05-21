@@ -23,6 +23,7 @@ export default {
     }
 
     // Handle /secure/{COUNTRY} only if logged in
+    // Might be inconsequential given auth, only worry is the binding cookie (CF_Authorization) not being instant sometimes
     const match = pathname.match(/^\/secure\/([A-Z]{2})$/i);
     if (match) {
       const email = request.headers.get("cf-access-authenticated-user-email");
@@ -40,7 +41,7 @@ export default {
         return new Response(object.body, {
           headers: {
             "Content-Type": "image/svg+xml",
-            "Cache-Control": "public, max-age=86400"
+            "Cache-Control": "no-store"
           }
         });
       } catch {
